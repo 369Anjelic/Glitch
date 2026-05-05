@@ -1120,107 +1120,91 @@
 
             <div class="demo-wrapper" x-data="glitchChat()">
 
-                <!-- Sidebar mit 18 IHK-Lernfeldern -->
+                <!-- Sidebar mit 9 IHK-Prüfungsfeldern (Exam-Fokussiert) -->
                 <div class="sidebar">
-                    <div class="sidebar-title">📚 18 Lernfelder</div>
+                    <div class="sidebar-title">🎯 9 Prüfungsfelder</div>
 
-                    <div class="fach-item" @click="toggleFach('lf1')" :class="{'active': activeFach === 'lf1'}">
-                        <span>LF1 IT-Systeme</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf1')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf1')}">
-                        <div class="topic-item" @click="insertTopic('LF1: Hardware-Grundlagen')">Hardware</div>
-                        <div class="topic-item" @click="insertTopic('LF1: Betriebssysteme')">Betriebssysteme</div>
-                    </div>
-
+                    <!-- ⭐⭐⭐ SUPER CRITICAL (60% Exam) -->
                     <div class="fach-item" @click="toggleFach('lf2')" :class="{'active': activeFach === 'lf2'}">
-                        <span>LF2 Programmiergrundlagen ⭐</span>
+                        <span>LF2 Programmiergrundlagen ⭐⭐⭐</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf2')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf2')}">
-                        <div class="topic-item" @click="insertTopic('LF2: Variablen, Datentypen')">Datentypen</div>
-                        <div class="topic-item" @click="insertTopic('LF2: Kontrollstrukturen')">Kontrollstrukturen</div>
-                        <div class="topic-item" @click="insertTopic('LF2: Funktionen & OOP')">OOP</div>
+                        <div class="topic-item" @click="insertTopic('LF2 Python: Variablen & Datentypen (int, str, list, dict, tuple)')">Python Basics</div>
+                        <div class="topic-item" @click="insertTopic('LF2 Python: Schleifen & Bedingungen (if/elif/else, for, while)')">Kontrollstrukturen</div>
+                        <div class="topic-item" @click="insertTopic('LF2 Python: Funktionen definieren (def, Parameter, Return, *args, **kwargs)')">Funktionen</div>
+                        <div class="topic-item" @click="insertTopic('LF2 Python: OOP - Klassen, Vererbung, Polymorphismus, self')">OOP</div>
+                        <div class="topic-item" @click="insertTopic('LF2 Python: Exception Handling (try/except/finally, raise)')">Error Handling</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf3')" :class="{'active': activeFach === 'lf3'}">
-                        <span>LF3 Datenbanken ⭐</span>
+                        <span>LF3 Datenbanken ⭐⭐⭐</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf3')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf3')}">
-                        <div class="topic-item" @click="insertTopic('LF3: SQL-Grundlagen')">SQL</div>
-                        <div class="topic-item" @click="insertTopic('LF3: Normalisierung')">Normalisierung</div>
-                        <div class="topic-item" @click="insertTopic('LF3: ER-Modellierung')">ER-Modell</div>
+                        <div class="topic-item" @click="insertTopic('LF3 SQL: SELECT, WHERE, ORDER BY, GROUP BY - mit Python sqlite3 Beispiele')">SQL Grundlagen</div>
+                        <div class="topic-item" @click="insertTopic('LF3 SQL: JOIN (INNER, LEFT, RIGHT, FULL) - praktische Python Queries')">Joins</div>
+                        <div class="topic-item" @click="insertTopic('LF3 Normalisierung: 1NF, 2NF, 3NF, BCNF - Normalisierung in der Praxis')">Normalisierung</div>
+                        <div class="topic-item" @click="insertTopic('LF3 Python sqlite3: Verbindungen, Cursor, Transactions, prepared statements')">Python DB-Zugriff</div>
+                        <div class="topic-item" @click="insertTopic('LF3 ER-Modellierung: Entitäten, Attribute, Beziehungen, Kardinalitäten')">ER-Modell</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf4')" :class="{'active': activeFach === 'lf4'}">
-                        <span>LF4 Frontend-Web ⭐</span>
+                        <span>LF4 Frontend ⭐⭐⭐</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf4')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf4')}">
-                        <div class="topic-item" @click="insertTopic('LF4: HTML & CSS Grundlagen')">HTML/CSS</div>
-                        <div class="topic-item" @click="insertTopic('LF4: JavaScript & DOM Manipulation')">JavaScript</div>
-                        <div class="topic-item" @click="insertTopic('LF4: Responsive Design & Mobile First')">Responsive</div>
-                        <div class="topic-item" @click="insertTopic('LF4: Python mit Django für Frontend')">Django Frontend</div>
-                        <div class="topic-item" @click="insertTopic('LF4: Python Flask & Template Rendering')">Flask Templates</div>
-                        <div class="topic-item" @click="insertTopic('LF4: Python FastAPI mit React/Vue')">FastAPI</div>
-                        <div class="topic-item" @click="insertTopic('LF4: Jinja2 & Python Templating')">Jinja2</div>
+                        <div class="topic-item" @click="insertTopic('LF4 HTML/CSS: Semantisches HTML, CSS Grid/Flexbox, Responsive Design')">HTML/CSS</div>
+                        <div class="topic-item" @click="insertTopic('LF4 JavaScript: DOM-Manipulation, Event Listener, Fetch API, async/await')">JavaScript</div>
+                        <div class="topic-item" @click="insertTopic('LF4 Python Flask: @app.route(), request.form, render_template, Jinja2 Templates')">Flask Backend</div>
+                        <div class="topic-item" @click="insertTopic('LF4 Python Django: Django Templates, Static Files, URL Routing, Views')">Django Frontend</div>
+                        <div class="topic-item" @click="insertTopic('LF4 Python FastAPI: FastAPI mit HTML Templates, request/response handling')">FastAPI Frontend</div>
+                        <div class="topic-item" @click="insertTopic('LF4 Jinja2: Template Inheritance, Filters, Loops, Conditionals in Templates')">Jinja2 Templates</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf5')" :class="{'active': activeFach === 'lf5'}">
-                        <span>LF5 Backend-Web ⭐</span>
+                        <span>LF5 Backend ⭐⭐⭐</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf5')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf5')}">
-                        <div class="topic-item" @click="insertTopic('LF5: Node.js & Express')">Node.js</div>
-                        <div class="topic-item" @click="insertTopic('LF5: REST APIs')">REST APIs</div>
-                        <div class="topic-item" @click="insertTopic('LF5: Authentication')">Auth</div>
+                        <div class="topic-item" @click="insertTopic('LF5 Python Flask: Flask-SQLAlchemy, Blueprints, Middleware, error handlers')">Flask</div>
+                        <div class="topic-item" @click="insertTopic('LF5 Python Django: Models, ORM, Queryset API, Migrations, Admin Panel')">Django ORM</div>
+                        <div class="topic-item" @click="insertTopic('LF5 Python FastAPI: Pydantic Models, Dependency Injection, async endpoints')">FastAPI</div>
+                        <div class="topic-item" @click="insertTopic('LF5 REST APIs: Statuscode (200, 201, 400, 404, 500), JSON Response, Request/Response Design')">REST API Design</div>
+                        <div class="topic-item" @click="insertTopic('LF5 Authentication: JWT, Session-based Auth, Password Hashing (bcrypt), CORS')">Auth & Security</div>
                     </div>
 
+                    <!-- ⭐⭐ CRITICAL (20% Exam) -->
                     <div class="fach-item" @click="toggleFach('lf6')" :class="{'active': activeFach === 'lf6'}">
-                        <span>LF6 Web-Sicherheit ⭐</span>
+                        <span>LF6 Web-Sicherheit ⭐⭐</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf6')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf6')}">
-                        <div class="topic-item" @click="insertTopic('LF6: OWASP Top 10')">OWASP</div>
-                        <div class="topic-item" @click="insertTopic('LF6: Verschlüsselung')">Verschlüsselung</div>
+                        <div class="topic-item" @click="insertTopic('LF6 OWASP Top 10: Injection, Broken Auth, XSS, CSRF, Sensitive Data Exposure')">OWASP</div>
+                        <div class="topic-item" @click="insertTopic('LF6 Python Hashing: hashlib, bcrypt für Passwort-Speicherung, Salt & Pepper')">Hashing</div>
+                        <div class="topic-item" @click="insertTopic('LF6 Python Encryption: cryptography library, symmetric/asymmetric encryption, base64 encoding')">Verschlüsselung</div>
+                        <div class="topic-item" @click="insertTopic('LF6 Input Validation: Sanitization, SQL Injection Prevention, XSS Prevention in Python')">Input Validation</div>
                     </div>
 
-                    <div class="fach-item" @click="toggleFach('lf7')" :class="{'active': activeFach === 'lf7'}">
-                        <span>LF7 Mobile iOS</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf7')}">›</span>
+                    <div class="fach-item" @click="toggleFach('lf1')" :class="{'active': activeFach === 'lf1'}">
+                        <span>LF1 IT-Systeme ⭐⭐</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf1')}">›</span>
                     </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf7')}">
-                        <div class="topic-item" @click="insertTopic('LF7: Swift Grundlagen')">Swift</div>
-                        <div class="topic-item" @click="insertTopic('LF7: iOS Development')">iOS</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf8')" :class="{'active': activeFach === 'lf8'}">
-                        <span>LF8 Mobile Android</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf8')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf8')}">
-                        <div class="topic-item" @click="insertTopic('LF8: Kotlin Basics')">Kotlin</div>
-                        <div class="topic-item" @click="insertTopic('LF8: Android Development')">Android</div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf1')}">
+                        <div class="topic-item" @click="insertTopic('LF1 Hardware: CPU, RAM, Speicher, Motherboard, Peripherie, Boot-Prozess')">Hardware</div>
+                        <div class="topic-item" @click="insertTopic('LF1 Betriebssysteme: Windows/Linux, Prozesse, Speicherverwaltung, Dateisysteme')">Betriebssysteme</div>
+                        <div class="topic-item" @click="insertTopic('LF1 Netzwerk: TCP/IP, HTTP/HTTPS, DNS, Firewall, Ports, Netzwerk-Tools')">Netzwerk</div>
                     </div>
 
-                    <div class="fach-item" @click="toggleFach('lf9')" :class="{'active': activeFach === 'lf9'}">
-                        <span>LF9 Cross-Platform</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf9')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf9')}">
-                        <div class="topic-item" @click="insertTopic('LF9: Flutter & Dart')">Flutter</div>
-                        <div class="topic-item" @click="insertTopic('LF9: React Native')">React Native</div>
-                    </div>
-
+                    <!-- 🔥 PROFESSIONAL SKILLS (40% Exam) -->
                     <div class="fach-item" @click="toggleFach('lf10')" :class="{'active': activeFach === 'lf10'}">
                         <span>LF10 Design Patterns 🔥</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf10')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf10')}">
-                        <div class="topic-item" @click="insertTopic('LF10: SOLID-Prinzipien')">SOLID</div>
-                        <div class="topic-item" @click="insertTopic('LF10: Design Patterns')">Patterns</div>
-                        <div class="topic-item" @click="insertTopic('LF10: Clean Code')">Clean Code</div>
+                        <div class="topic-item" @click="insertTopic('LF10 Python Design Patterns: MVC, Repository Pattern, Factory Pattern, Singleton')">Design Patterns</div>
+                        <div class="topic-item" @click="insertTopic('LF10 SOLID Principles: Single Responsibility, Open/Closed, Liskov Substitution, Interface Segregation, Dependency Inversion')">SOLID</div>
+                        <div class="topic-item" @click="insertTopic('LF10 Code Quality: DRY, KISS, Code Review, Refactoring, Technical Debt')">Code Quality</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf11')" :class="{'active': activeFach === 'lf11'}">
@@ -1228,74 +1212,19 @@
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf11')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf11')}">
-                        <div class="topic-item" @click="insertTopic('LF11: Unit Testing')">Unit Tests</div>
-                        <div class="topic-item" @click="insertTopic('LF11: Integration Tests')">Integration</div>
-                        <div class="topic-item" @click="insertTopic('LF11: TDD')">TDD</div>
+                        <div class="topic-item" @click="insertTopic('LF11 Python Testing: unittest, pytest, Fixtures, Mocking, Coverage')">Unit Testing</div>
+                        <div class="topic-item" @click="insertTopic('LF11 Test-Types: Integration Tests, End-to-End Tests, Regression Testing')">Test-Arten</div>
+                        <div class="topic-item" @click="insertTopic('LF11 TDD & BDD: Test-Driven Development, Behavior-Driven Development, Red-Green-Refactor')">TDD/BDD</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf12')" :class="{'active': activeFach === 'lf12'}">
-                        <span>LF12 Team-Entwicklung</span>
+                        <span>LF12 Team & Git 🔥</span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf12')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf12')}">
-                        <div class="topic-item" @click="insertTopic('LF12: Git & Versionskontrolle')">Git</div>
-                        <div class="topic-item" @click="insertTopic('LF12: Agile & Scrum')">Scrum</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf13')" :class="{'active': activeFach === 'lf13'}">
-                        <span>LF13 Enterprise</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf13')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf13')}">
-                        <div class="topic-item" @click="insertTopic('LF13: Microservices')">Microservices</div>
-                        <div class="topic-item" @click="insertTopic('LF13: Enterprise Patterns')">Patterns</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf14')" :class="{'active': activeFach === 'lf14'}">
-                        <span>LF14 Cloud-Native 🚀</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf14')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf14')}">
-                        <div class="topic-item" @click="insertTopic('LF14: Kubernetes')">Kubernetes</div>
-                        <div class="topic-item" @click="insertTopic('LF14: Docker')">Docker</div>
-                        <div class="topic-item" @click="insertTopic('LF14: Cloud Plattformen')">AWS/GCP/Azure</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf15')" :class="{'active': activeFach === 'lf15'}">
-                        <span>LF15 DevOps</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf15')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf15')}">
-                        <div class="topic-item" @click="insertTopic('LF15: CI/CD Pipelines')">CI/CD</div>
-                        <div class="topic-item" @click="insertTopic('LF15: Monitoring & Logging')">Monitoring</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf16')" :class="{'active': activeFach === 'lf16'}">
-                        <span>LF16 KI & ML 🤖</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf16')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf16')}">
-                        <div class="topic-item" @click="insertTopic('LF16: Machine Learning Grundlagen')">ML</div>
-                        <div class="topic-item" @click="insertTopic('LF16: Neural Networks')">NN</div>
-                        <div class="topic-item" @click="insertTopic('LF16: Claude & LLMs')">LLMs</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf17')" :class="{'active': activeFach === 'lf17'}">
-                        <span>LF17 Data & BigData</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf17')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf17')}">
-                        <div class="topic-item" @click="insertTopic('LF17: Data Visualization')">Visualisierung</div>
-                        <div class="topic-item" @click="insertTopic('LF17: Big Data Processing')">BigData</div>
-                    </div>
-
-                    <div class="fach-item" @click="toggleFach('lf18')" :class="{'active': activeFach === 'lf18'}">
-                        <span>LF18 Embedded & IoT</span>
-                        <span class="fach-toggle" :class="{'open': openFach.includes('lf18')}">›</span>
-                    </div>
-                    <div class="fach-topics" :class="{'show': openFach.includes('lf18')}">
-                        <div class="topic-item" @click="insertTopic('LF18: Arduino & Raspberry Pi')">Arduino</div>
-                        <div class="topic-item" @click="insertTopic('LF18: IoT Protocols')">IoT</div>
+                        <div class="topic-item" @click="insertTopic('LF12 Git Grundlagen: add, commit, push, pull, branch, merge, conflict resolution')">Git Basics</div>
+                        <div class="topic-item" @click="insertTopic('LF12 Git Workflows: Feature Branch, Pull Requests, Code Review, Commits schreiben')">Git Workflows</div>
+                        <div class="topic-item" @click="insertTopic('LF12 Teamwork: Agile (Scrum/Kanban), Daily Standups, Sprint Planning, Documentation')">Teamwork</div>
                     </div>
                 </div>
 
