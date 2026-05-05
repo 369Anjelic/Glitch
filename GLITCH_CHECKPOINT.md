@@ -1,8 +1,8 @@
 # Glitch Local — Projektstand & Checkpoint
 
-**Aktueller Status:** 2026-05-05 - Vollständig funktionsfähig  
+**Aktueller Status:** 2026-05-05 - Vollständig funktionsfähig mit Auto-Learning-Track  
 **3-Wort-Identifier:** `node.sync.cache`  
-**Git Commits:** 6 lokal (alles committed, ready für push)
+**Git Commits:** 8 lokal (alles committed, ready für push)
 
 ---
 
@@ -38,9 +38,14 @@ Offline IHK Prüfungsvorbereitung für **Fachinformatiker Anwendungsentwicklung 
      - Deutsche Frauenstimme (de-DE)
      - Spricht alle Glitch-Messages vor
 
-3. **Progress System**
+3. **Learning Progress System**
    - ✅ localStorage persistence
-   - ✅ Auto-increment on topic click
+   - ✅ Auto-increment on topic click (manual)
+   - ✅ **AUTO-TRACK in Chat** (desto mehr lernen = desto mehr Fortschritt)
+     - Erkennt automatisch welches LF besprochen wird
+     - Erhöht Progress basierend auf Antwort-Länge
+     - Bonus für wiederholtes Lernen
+     - Feedback: 💪 System-Message mit aktuellem Progress
    - ✅ Visual progress bars (0-100%)
    - ✅ Cross-session memory
 
@@ -150,5 +155,5 @@ glitch local/
 ---
 
 **Erstellt:** 2026-05-05  
-**Version:** 2.0 (18-LF mit Progress Tracking)  
+**Version:** 2.1 (18-LF + Progress Tracking + Auto-Learning + TTS Voice)  
 **Status:** Production Ready ✅
