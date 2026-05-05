@@ -1724,7 +1724,7 @@
                 <div class="learning-status-panel">
                     <div class="learning-status-title">📊 Dein Fortschritt - Alle 18 Lernfelder</div>
                     <div class="learning-fields-grid">
-                        <template x-for="lf in Array.from({length: 18}, (_, i) => `lf${i+1}`)" :key="lf">
+                        <template x-for="lf in Array.from({length: 12}, (_, i) => `lf${i+1}`)" :key="lf">
                             <div class="learning-field-item">
                                 <div class="learning-field-label" x-text="`${lf.toUpperCase()}`"></div>
                                 <div class="learning-field-bar">
