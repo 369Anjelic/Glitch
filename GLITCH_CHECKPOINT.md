@@ -2,7 +2,7 @@
 
 **Aktueller Status:** 2026-05-05 - Vollständig funktionsfähig  
 **3-Wort-Identifier:** `node.sync.cache`  
-**Git Commits:** 4 lokal, ready für push
+**Git Commits:** 6 lokal (alles committed, ready für push)
 
 ---
 
@@ -25,6 +25,7 @@ Offline IHK Prüfungsvorbereitung für **Fachinformatiker Anwendungsentwicklung 
    - ✅ Python-Code-Beispiele für jeden Topic
    - ✅ Expandable/Collapsible Topics
    - ✅ Progress-Bar + % für jedes Fach
+   - ✅ Scrollable (max-height: 80vh)
 
 2. **Chat Interface**
    - ✅ Alpine.js reactive input
@@ -32,6 +33,10 @@ Offline IHK Prüfungsvorbereitung für **Fachinformatiker Anwendungsentwicklung 
    - ✅ Markdown rendering mit DOMPurify
    - ✅ Typing indicator
    - ✅ Export: Tagebuch + Lernfortschritt
+   - ✅ **German Female Voice TTS** (🔊 Vorlesen Button)
+     - Web Speech API (offline)
+     - Deutsche Frauenstimme (de-DE)
+     - Spricht alle Glitch-Messages vor
 
 3. **Progress System**
    - ✅ localStorage persistence
