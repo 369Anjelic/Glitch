@@ -374,15 +374,111 @@
             background: var(--white);
         }
 
+        .demo-wrapper {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 20px;
+            background: var(--light-gray);
+            border-radius: 12px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            opacity: 0.8;
+        }
+
+        .fach-item {
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background: var(--white);
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+            font-size: 0.9rem;
+            color: var(--black);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .fach-item:hover {
+            background: var(--blue);
+            color: var(--white);
+            transform: translateX(4px);
+        }
+
+        .fach-item.active {
+            background: var(--blue);
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        .fach-toggle {
+            font-size: 0.75rem;
+            transition: transform 0.2s;
+        }
+
+        .fach-toggle.open {
+            transform: rotate(90deg);
+        }
+
+        .fach-topics {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            padding-left: 12px;
+            margin-top: 4px;
+            border-left: 2px solid var(--blue);
+            padding-left: 8px;
+        }
+
+        .fach-topics.show {
+            display: flex;
+        }
+
+        .topic-item {
+            cursor: pointer;
+            padding: 6px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            color: var(--black);
+            opacity: 0.7;
+            background: transparent;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .topic-item:hover {
+            background: var(--blue);
+            color: var(--white);
+            opacity: 1;
+        }
+
         .chat-container {
-            max-width: 800px;
-            margin: 40px auto 0;
             background: var(--white);
             border-radius: 12px;
             box-shadow: 0 2px 20px rgba(62, 68, 71, 0.08);
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            max-height: 650px;
         }
 
         .chat-messages {
@@ -1022,7 +1118,185 @@
                 <p style="max-width: 600px; margin: 20px auto 0; opacity: 0.75;">Glitch lernt dich im Gespräch kennen. Keine Dropdowns, keine Formulare. Einfach losschreiben — und wenn du wiederkommst, gib deine drei Wörter ein.</p>
             </div>
 
-            <div class="chat-container" x-data="glitchChat()">
+            <div class="demo-wrapper" x-data="glitchChat()">
+
+                <!-- Sidebar mit 18 IHK-Lernfeldern -->
+                <div class="sidebar">
+                    <div class="sidebar-title">📚 18 Lernfelder</div>
+
+                    <div class="fach-item" @click="toggleFach('lf1')" :class="{'active': activeFach === 'lf1'}">
+                        <span>LF1 IT-Systeme</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf1')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf1')}">
+                        <div class="topic-item" @click="insertTopic('LF1: Hardware-Grundlagen')">Hardware</div>
+                        <div class="topic-item" @click="insertTopic('LF1: Betriebssysteme')">Betriebssysteme</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf2')" :class="{'active': activeFach === 'lf2'}">
+                        <span>LF2 Programmiergrundlagen ⭐</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf2')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf2')}">
+                        <div class="topic-item" @click="insertTopic('LF2: Variablen, Datentypen')">Datentypen</div>
+                        <div class="topic-item" @click="insertTopic('LF2: Kontrollstrukturen')">Kontrollstrukturen</div>
+                        <div class="topic-item" @click="insertTopic('LF2: Funktionen & OOP')">OOP</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf3')" :class="{'active': activeFach === 'lf3'}">
+                        <span>LF3 Datenbanken ⭐</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf3')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf3')}">
+                        <div class="topic-item" @click="insertTopic('LF3: SQL-Grundlagen')">SQL</div>
+                        <div class="topic-item" @click="insertTopic('LF3: Normalisierung')">Normalisierung</div>
+                        <div class="topic-item" @click="insertTopic('LF3: ER-Modellierung')">ER-Modell</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf4')" :class="{'active': activeFach === 'lf4'}">
+                        <span>LF4 Frontend-Web ⭐</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf4')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf4')}">
+                        <div class="topic-item" @click="insertTopic('LF4: HTML & CSS')">HTML/CSS</div>
+                        <div class="topic-item" @click="insertTopic('LF4: JavaScript & DOM')">JavaScript</div>
+                        <div class="topic-item" @click="insertTopic('LF4: Responsive Design')">Responsive</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf5')" :class="{'active': activeFach === 'lf5'}">
+                        <span>LF5 Backend-Web ⭐</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf5')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf5')}">
+                        <div class="topic-item" @click="insertTopic('LF5: Node.js & Express')">Node.js</div>
+                        <div class="topic-item" @click="insertTopic('LF5: REST APIs')">REST APIs</div>
+                        <div class="topic-item" @click="insertTopic('LF5: Authentication')">Auth</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf6')" :class="{'active': activeFach === 'lf6'}">
+                        <span>LF6 Web-Sicherheit ⭐</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf6')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf6')}">
+                        <div class="topic-item" @click="insertTopic('LF6: OWASP Top 10')">OWASP</div>
+                        <div class="topic-item" @click="insertTopic('LF6: Verschlüsselung')">Verschlüsselung</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf7')" :class="{'active': activeFach === 'lf7'}">
+                        <span>LF7 Mobile iOS</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf7')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf7')}">
+                        <div class="topic-item" @click="insertTopic('LF7: Swift Grundlagen')">Swift</div>
+                        <div class="topic-item" @click="insertTopic('LF7: iOS Development')">iOS</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf8')" :class="{'active': activeFach === 'lf8'}">
+                        <span>LF8 Mobile Android</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf8')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf8')}">
+                        <div class="topic-item" @click="insertTopic('LF8: Kotlin Basics')">Kotlin</div>
+                        <div class="topic-item" @click="insertTopic('LF8: Android Development')">Android</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf9')" :class="{'active': activeFach === 'lf9'}">
+                        <span>LF9 Cross-Platform</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf9')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf9')}">
+                        <div class="topic-item" @click="insertTopic('LF9: Flutter & Dart')">Flutter</div>
+                        <div class="topic-item" @click="insertTopic('LF9: React Native')">React Native</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf10')" :class="{'active': activeFach === 'lf10'}">
+                        <span>LF10 Design Patterns 🔥</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf10')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf10')}">
+                        <div class="topic-item" @click="insertTopic('LF10: SOLID-Prinzipien')">SOLID</div>
+                        <div class="topic-item" @click="insertTopic('LF10: Design Patterns')">Patterns</div>
+                        <div class="topic-item" @click="insertTopic('LF10: Clean Code')">Clean Code</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf11')" :class="{'active': activeFach === 'lf11'}">
+                        <span>LF11 Testing & QA 🔥</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf11')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf11')}">
+                        <div class="topic-item" @click="insertTopic('LF11: Unit Testing')">Unit Tests</div>
+                        <div class="topic-item" @click="insertTopic('LF11: Integration Tests')">Integration</div>
+                        <div class="topic-item" @click="insertTopic('LF11: TDD')">TDD</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf12')" :class="{'active': activeFach === 'lf12'}">
+                        <span>LF12 Team-Entwicklung</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf12')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf12')}">
+                        <div class="topic-item" @click="insertTopic('LF12: Git & Versionskontrolle')">Git</div>
+                        <div class="topic-item" @click="insertTopic('LF12: Agile & Scrum')">Scrum</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf13')" :class="{'active': activeFach === 'lf13'}">
+                        <span>LF13 Enterprise</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf13')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf13')}">
+                        <div class="topic-item" @click="insertTopic('LF13: Microservices')">Microservices</div>
+                        <div class="topic-item" @click="insertTopic('LF13: Enterprise Patterns')">Patterns</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf14')" :class="{'active': activeFach === 'lf14'}">
+                        <span>LF14 Cloud-Native 🚀</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf14')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf14')}">
+                        <div class="topic-item" @click="insertTopic('LF14: Kubernetes')">Kubernetes</div>
+                        <div class="topic-item" @click="insertTopic('LF14: Docker')">Docker</div>
+                        <div class="topic-item" @click="insertTopic('LF14: Cloud Plattformen')">AWS/GCP/Azure</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf15')" :class="{'active': activeFach === 'lf15'}">
+                        <span>LF15 DevOps</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf15')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf15')}">
+                        <div class="topic-item" @click="insertTopic('LF15: CI/CD Pipelines')">CI/CD</div>
+                        <div class="topic-item" @click="insertTopic('LF15: Monitoring & Logging')">Monitoring</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf16')" :class="{'active': activeFach === 'lf16'}">
+                        <span>LF16 KI & ML 🤖</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf16')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf16')}">
+                        <div class="topic-item" @click="insertTopic('LF16: Machine Learning Grundlagen')">ML</div>
+                        <div class="topic-item" @click="insertTopic('LF16: Neural Networks')">NN</div>
+                        <div class="topic-item" @click="insertTopic('LF16: Claude & LLMs')">LLMs</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf17')" :class="{'active': activeFach === 'lf17'}">
+                        <span>LF17 Data & BigData</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf17')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf17')}">
+                        <div class="topic-item" @click="insertTopic('LF17: Data Visualization')">Visualisierung</div>
+                        <div class="topic-item" @click="insertTopic('LF17: Big Data Processing')">BigData</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf18')" :class="{'active': activeFach === 'lf18'}">
+                        <span>LF18 Embedded & IoT</span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf18')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf18')}">
+                        <div class="topic-item" @click="insertTopic('LF18: Arduino & Raspberry Pi')">Arduino</div>
+                        <div class="topic-item" @click="insertTopic('LF18: IoT Protocols')">IoT</div>
+                    </div>
+                </div>
+
+                <!-- Chat Container -->
+                <div class="chat-container">
                 <div class="chat-messages" x-ref="messages">
 
                     <template x-for="msg in messages" :key="msg.id">
@@ -1140,6 +1414,7 @@
 
                 </div>
             </div>
+            </div>
         </div>
     </section>
 
@@ -1192,8 +1467,10 @@
                 localHistory: [],
                 messageIdCounter: 2,
                 currentSessionId: Date.now(),
+                activeFach: null,
+                openFach: [],
 
-                API_URL: 'https://glitch-api.post-666.workers.dev',
+                API_URL: 'http://localhost:3003',
 
                 saveToLocalStorage() {
                     const allChats = JSON.parse(localStorage.getItem('glitchChats') || '[]');
@@ -1505,6 +1782,26 @@
                                 this.$refs.chatInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                             }
                         }, 100);
+                    });
+                },
+
+                toggleFach(fach) {
+                    this.activeFach = this.activeFach === fach ? null : fach;
+                    if (this.openFach.includes(fach)) {
+                        this.openFach = this.openFach.filter(f => f !== fach);
+                    } else {
+                        this.openFach = [...this.openFach, fach];
+                    }
+                },
+
+                insertTopic(topic) {
+                    this.userInput = `Ich hätte gerne Hilfe zu: ${topic}`;
+                    this.$nextTick(() => {
+                        if (this.$refs.chatInput) {
+                            this.$refs.chatInput.focus();
+                            this.$refs.chatInput.style.height = 'auto';
+                            this.$refs.chatInput.style.height = this.$refs.chatInput.scrollHeight + 'px';
+                        }
                     });
                 },
             };
