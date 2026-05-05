@@ -416,6 +416,10 @@
             transition: all 0.2s ease;
             font-size: 0.9rem;
             color: var(--black);
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -433,9 +437,28 @@
             font-weight: 600;
         }
 
+        .progress-bar {
+            height: 2px;
+            background: var(--blue);
+            border-radius: 1px;
+            transition: width 0.3s ease;
+            min-width: 20px;
+            opacity: 0.6;
+        }
+
+        .progress-text {
+            font-size: 0.75rem;
+            color: var(--blue);
+            opacity: 0.6;
+            font-weight: 600;
+            min-width: 30px;
+            text-align: right;
+        }
+
         .fach-toggle {
             font-size: 0.75rem;
             transition: transform 0.2s;
+            margin-left: auto;
         }
 
         .fach-toggle.open {
@@ -1124,15 +1147,28 @@
                 <p style="max-width: 600px; margin: 20px auto 0; opacity: 0.75;">Glitch lernt dich im Gespräch kennen. Keine Dropdowns, keine Formulare. Einfach losschreiben — und wenn du wiederkommst, gib deine drei Wörter ein.</p>
             </div>
 
-            <div class="demo-wrapper" x-data="glitchChat()">
+            <div class="demo-wrapper" x-data="glitchChat()" @alpine:init="initProgress()">
 
-                <!-- Sidebar mit 9 IHK-Prüfungsfeldern (Exam-Fokussiert) -->
+                <!-- Sidebar mit 18 IHK-Lernfeldern -->
                 <div class="sidebar">
-                    <div class="sidebar-title">🎯 9 Prüfungsfelder</div>
+                    <div class="sidebar-title">📚 18 Lernfelder</div>
 
-                    <!-- ⭐⭐⭐ SUPER CRITICAL (60% Exam) -->
+                    <div class="fach-item" @click="toggleFach('lf1')" :class="{'active': activeFach === 'lf1'}">
+                        <span>LF1 IT-Systeme</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf1'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf1'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf1')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf1')}">
+                        <div class="topic-item" @click="updateProgress('lf1', 20); insertTopic('LF1 Python: Hardware-Grundlagen - CPU, RAM, Speicher, Motherboard')">Hardware</div>
+                        <div class="topic-item" @click="updateProgress('lf1', 20); insertTopic('LF1 Python: Betriebssysteme - Prozesse, Speicherverwaltung, Dateisysteme')">Betriebssysteme</div>
+                        <div class="topic-item" @click="updateProgress('lf1', 20); insertTopic('LF1 Python: Netzwerk - TCP/IP, HTTP/HTTPS, DNS, Firewall, Ports')">Netzwerk</div>
+                    </div>
+
                     <div class="fach-item" @click="toggleFach('lf2')" :class="{'active': activeFach === 'lf2'}">
-                        <span>LF2 Programmiergrundlagen ⭐⭐⭐</span>
+                        <span>LF2 Programmiergrundlagen</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf2'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf2'] || 0}%`"></span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf2')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf2')}">
@@ -1144,15 +1180,206 @@
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf3')" :class="{'active': activeFach === 'lf3'}">
-                        <span>LF3 Datenbanken ⭐⭐⭐</span>
+                        <span>LF3 Datenbanken</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf3'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf3'] || 0}%`"></span>
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf3')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf3')}">
-                        <div class="topic-item" @click="insertTopic('LF3 SQL: SELECT, WHERE, ORDER BY, GROUP BY - mit Python sqlite3 Beispiele')">SQL Grundlagen</div>
-                        <div class="topic-item" @click="insertTopic('LF3 SQL: JOIN (INNER, LEFT, RIGHT, FULL) - praktische Python Queries')">Joins</div>
-                        <div class="topic-item" @click="insertTopic('LF3 Normalisierung: 1NF, 2NF, 3NF, BCNF - Normalisierung in der Praxis')">Normalisierung</div>
-                        <div class="topic-item" @click="insertTopic('LF3 Python sqlite3: Verbindungen, Cursor, Transactions, prepared statements')">Python DB-Zugriff</div>
-                        <div class="topic-item" @click="insertTopic('LF3 ER-Modellierung: Entitäten, Attribute, Beziehungen, Kardinalitäten')">ER-Modell</div>
+                        <div class="topic-item" @click="updateProgress('lf3', 20); insertTopic('LF3 SQL: SELECT, WHERE, ORDER BY, GROUP BY mit Python sqlite3')">SQL Grundlagen</div>
+                        <div class="topic-item" @click="updateProgress('lf3', 20); insertTopic('LF3 SQL: JOIN (INNER, LEFT, RIGHT, FULL) - praktische Queries')">Joins</div>
+                        <div class="topic-item" @click="updateProgress('lf3', 20); insertTopic('LF3 Normalisierung: 1NF, 2NF, 3NF, BCNF')">Normalisierung</div>
+                        <div class="topic-item" @click="updateProgress('lf3', 20); insertTopic('LF3 Python sqlite3: Cursor, Transactions, prepared statements')">Python DB</div>
+                        <div class="topic-item" @click="updateProgress('lf3', 20); insertTopic('LF3 ER-Modellierung: Entitäten, Attribute, Beziehungen')">ER-Modell</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf4')" :class="{'active': activeFach === 'lf4'}">
+                        <span>LF4 Frontend</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf4'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf4'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf4')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf4')}">
+                        <div class="topic-item" @click="updateProgress('lf4', 17); insertTopic('LF4 HTML/CSS: Semantisches HTML, CSS Grid, Flexbox')">HTML/CSS</div>
+                        <div class="topic-item" @click="updateProgress('lf4', 17); insertTopic('LF4 JavaScript: DOM-Manipulation, Event Listener, Fetch API')">JavaScript</div>
+                        <div class="topic-item" @click="updateProgress('lf4', 17); insertTopic('LF4 Python Flask: @app.route(), render_template, Jinja2')">Flask</div>
+                        <div class="topic-item" @click="updateProgress('lf4', 17); insertTopic('LF4 Python Django: Templates, Static Files, URL Routing')">Django</div>
+                        <div class="topic-item" @click="updateProgress('lf4', 17); insertTopic('LF4 Python FastAPI: HTML Templates, request/response')">FastAPI</div>
+                        <div class="topic-item" @click="updateProgress('lf4', 16); insertTopic('LF4 Jinja2: Template Inheritance, Filters, Loops')">Jinja2</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf5')" :class="{'active': activeFach === 'lf5'}">
+                        <span>LF5 Backend</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf5'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf5'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf5')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf5')}">
+                        <div class="topic-item" @click="updateProgress('lf5', 20); insertTopic('LF5 Python Flask: Flask-SQLAlchemy, Blueprints, Middleware')">Flask</div>
+                        <div class="topic-item" @click="updateProgress('lf5', 20); insertTopic('LF5 Python Django: Models, ORM, Queryset API, Migrations')">Django ORM</div>
+                        <div class="topic-item" @click="updateProgress('lf5', 20); insertTopic('LF5 Python FastAPI: Pydantic Models, Dependency Injection')">FastAPI</div>
+                        <div class="topic-item" @click="updateProgress('lf5', 20); insertTopic('LF5 REST APIs: Statuscode, JSON Response, Request Design')">REST APIs</div>
+                        <div class="topic-item" @click="updateProgress('lf5', 20); insertTopic('LF5 Auth: JWT, Session-based, Password Hashing (bcrypt)')">Auth</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf6')" :class="{'active': activeFach === 'lf6'}">
+                        <span>LF6 Web-Sicherheit</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf6'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf6'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf6')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf6')}">
+                        <div class="topic-item" @click="updateProgress('lf6', 25); insertTopic('LF6 OWASP Top 10: Injection, XSS, CSRF, Sensitive Data')">OWASP</div>
+                        <div class="topic-item" @click="updateProgress('lf6', 25); insertTopic('LF6 Python hashlib: MD5, SHA1, SHA256 für Hashing')">Hashing</div>
+                        <div class="topic-item" @click="updateProgress('lf6', 25); insertTopic('LF6 Python cryptography: Symmetric/Asymmetric Encryption')">Verschlüsselung</div>
+                        <div class="topic-item" @click="updateProgress('lf6', 25); insertTopic('LF6 Input Validation: Sanitization, SQL Injection Prevention')">Input Validation</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf7')" :class="{'active': activeFach === 'lf7'}">
+                        <span>LF7 Mobile iOS</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf7'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf7'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf7')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf7')}">
+                        <div class="topic-item" @click="updateProgress('lf7', 33); insertTopic('LF7 Swift Basics: Variables, Functions, Structs, Classes')">Swift</div>
+                        <div class="topic-item" @click="updateProgress('lf7', 33); insertTopic('LF7 iOS Development: UIKit, SwiftUI, View Controllers')">iOS Dev</div>
+                        <div class="topic-item" @click="updateProgress('lf7', 34); insertTopic('LF7 iOS APIs: Core Data, URLSession, Push Notifications')">iOS APIs</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf8')" :class="{'active': activeFach === 'lf8'}">
+                        <span>LF8 Mobile Android</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf8'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf8'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf8')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf8')}">
+                        <div class="topic-item" @click="updateProgress('lf8', 33); insertTopic('LF8 Kotlin Basics: Variables, Functions, Classes, Lambdas')">Kotlin</div>
+                        <div class="topic-item" @click="updateProgress('lf8', 33); insertTopic('LF8 Android Development: Activities, Fragments, Layouts')">Android Dev</div>
+                        <div class="topic-item" @click="updateProgress('lf8', 34); insertTopic('LF8 Android APIs: Room Database, Retrofit, Firebase')">Android APIs</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf9')" :class="{'active': activeFach === 'lf9'}">
+                        <span>LF9 Cross-Platform</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf9'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf9'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf9')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf9')}">
+                        <div class="topic-item" @click="updateProgress('lf9', 33); insertTopic('LF9 Flutter: Dart, Widgets, State Management')">Flutter</div>
+                        <div class="topic-item" @click="updateProgress('lf9', 33); insertTopic('LF9 React Native: JavaScript/TypeScript, Components, Navigation')">React Native</div>
+                        <div class="topic-item" @click="updateProgress('lf9', 34); insertTopic('LF9 Web Components: HTML Custom Elements, Shadow DOM')">Web Comp</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf10')" :class="{'active': activeFach === 'lf10'}">
+                        <span>LF10 Design Patterns</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf10'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf10'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf10')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf10')}">
+                        <div class="topic-item" @click="updateProgress('lf10', 33); insertTopic('LF10 Python Design Patterns: MVC, Factory, Singleton, Observer')">Patterns</div>
+                        <div class="topic-item" @click="updateProgress('lf10', 33); insertTopic('LF10 SOLID: Single Responsibility, Open/Closed, Liskov')">SOLID</div>
+                        <div class="topic-item" @click="updateProgress('lf10', 34); insertTopic('LF10 Code Quality: DRY, KISS, Refactoring, Technical Debt')">Code Quality</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf11')" :class="{'active': activeFach === 'lf11'}">
+                        <span>LF11 Testing & QA</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf11'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf11'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf11')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf11')}">
+                        <div class="topic-item" @click="updateProgress('lf11', 25); insertTopic('LF11 Python Testing: unittest, pytest, Fixtures, Mocking')">Unit Testing</div>
+                        <div class="topic-item" @click="updateProgress('lf11', 25); insertTopic('LF11 Test Types: Integration Tests, E2E, Regression Testing')">Test Types</div>
+                        <div class="topic-item" @click="updateProgress('lf11', 25); insertTopic('LF11 TDD/BDD: Test-Driven Development, Behavior-Driven')">TDD/BDD</div>
+                        <div class="topic-item" @click="updateProgress('lf11', 25); insertTopic('LF11 Code Coverage: Coverage.py, Metrics, Coverage Goals')">Coverage</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf12')" :class="{'active': activeFach === 'lf12'}">
+                        <span>LF12 Team-Entwicklung</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf12'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf12'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf12')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf12')}">
+                        <div class="topic-item" @click="updateProgress('lf12', 25); insertTopic('LF12 Git: add, commit, push, pull, branch, merge')">Git</div>
+                        <div class="topic-item" @click="updateProgress('lf12', 25); insertTopic('LF12 Git Workflows: Feature Branch, Pull Requests, Code Review')">Workflows</div>
+                        <div class="topic-item" @click="updateProgress('lf12', 25); insertTopic('LF12 Agile: Scrum, Kanban, Sprint Planning, Daily Standups')">Agile</div>
+                        <div class="topic-item" @click="updateProgress('lf12', 25); insertTopic('LF12 Teamwork: Communication, Documentation, Knowledge Sharing')">Teamwork</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf13')" :class="{'active': activeFach === 'lf13'}">
+                        <span>LF13 Enterprise</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf13'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf13'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf13')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf13')}">
+                        <div class="topic-item" @click="updateProgress('lf13', 33); insertTopic('LF13 Microservices: Architecture, Service-to-Service, Communication')">Microservices</div>
+                        <div class="topic-item" @click="updateProgress('lf13', 33); insertTopic('LF13 Enterprise Patterns: CQRS, Event Sourcing, Saga')">Patterns</div>
+                        <div class="topic-item" @click="updateProgress('lf13', 34); insertTopic('LF13 ERP Systems: SAP, Oracle, Integration, Business Logic')">ERP</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf14')" :class="{'active': activeFach === 'lf14'}">
+                        <span>LF14 Cloud-Native</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf14'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf14'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf14')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf14')}">
+                        <div class="topic-item" @click="updateProgress('lf14', 33); insertTopic('LF14 Kubernetes: Pods, Services, Deployments, ConfigMaps')">Kubernetes</div>
+                        <div class="topic-item" @click="updateProgress('lf14', 33); insertTopic('LF14 Docker: Containers, Dockerfile, Docker Compose, Registries')">Docker</div>
+                        <div class="topic-item" @click="updateProgress('lf14', 34); insertTopic('LF14 Cloud: AWS, GCP, Azure, Cloud Services, Serverless')">Cloud</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf15')" :class="{'active': activeFach === 'lf15'}">
+                        <span>LF15 DevOps</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf15'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf15'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf15')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf15')}">
+                        <div class="topic-item" @click="updateProgress('lf15', 33); insertTopic('LF15 CI/CD: GitHub Actions, GitLab CI, Jenkins, Pipelines')">CI/CD</div>
+                        <div class="topic-item" @click="updateProgress('lf15', 33); insertTopic('LF15 Monitoring: Prometheus, Grafana, ELK Stack, Alerting')">Monitoring</div>
+                        <div class="topic-item" @click="updateProgress('lf15', 34); insertTopic('LF15 IaC: Terraform, CloudFormation, Ansible, Configuration')">IaC</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf16')" :class="{'active': activeFach === 'lf16'}">
+                        <span>LF16 KI & ML</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf16'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf16'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf16')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf16')}">
+                        <div class="topic-item" @click="updateProgress('lf16', 25); insertTopic('LF16 Machine Learning: sklearn, pandas, numpy, Model Training')">ML</div>
+                        <div class="topic-item" @click="updateProgress('lf16', 25); insertTopic('LF16 Deep Learning: TensorFlow, Keras, PyTorch, Neural Networks')">DL</div>
+                        <div class="topic-item" @click="updateProgress('lf16', 25); insertTopic('LF16 LLMs: Transformers, Embeddings, RAG, Claude APIs')">LLMs</div>
+                        <div class="topic-item" @click="updateProgress('lf16', 25); insertTopic('LF16 AI Safety: Bias, Explainability, Ethics, DSGVO')">AI Safety</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf17')" :class="{'active': activeFach === 'lf17'}">
+                        <span>LF17 Data & BigData</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf17'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf17'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf17')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf17')}">
+                        <div class="topic-item" @click="updateProgress('lf17', 33); insertTopic('LF17 Data Analysis: Pandas, Data Cleaning, EDA, Statistics')">Analysis</div>
+                        <div class="topic-item" @click="updateProgress('lf17', 33); insertTopic('LF17 Visualization: Matplotlib, Seaborn, Plotly, Dashboards')">Visualization</div>
+                        <div class="topic-item" @click="updateProgress('lf17', 34); insertTopic('LF17 BigData: Spark, Hadoop, Data Lakes, ETL Pipelines')">BigData</div>
+                    </div>
+
+                    <div class="fach-item" @click="toggleFach('lf18')" :class="{'active': activeFach === 'lf18'}">
+                        <span>LF18 Embedded & IoT</span>
+                        <div class="progress-bar" :style="`width: ${learningProgress['lf18'] || 0}%`"></div>
+                        <span class="progress-text" x-text="`${learningProgress['lf18'] || 0}%`"></span>
+                        <span class="fach-toggle" :class="{'open': openFach.includes('lf18')}">›</span>
+                    </div>
+                    <div class="fach-topics" :class="{'show': openFach.includes('lf18')}">
+                        <div class="topic-item" @click="updateProgress('lf18', 33); insertTopic('LF18 Arduino: C++, Sketches, GPIO, Sensors, Actuators')">Arduino</div>
+                        <div class="topic-item" @click="updateProgress('lf18', 33); insertTopic('LF18 Raspberry Pi: Python, GPIO, Automation, Home IoT')">Raspberry Pi</div>
+                        <div class="topic-item" @click="updateProgress('lf18', 34); insertTopic('LF18 IoT Protocols: MQTT, CoAP, LoRaWAN, 5G')">Protocols</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf4')" :class="{'active': activeFach === 'lf4'}">
@@ -1408,8 +1635,28 @@
                 currentSessionId: Date.now(),
                 activeFach: null,
                 openFach: [],
+                learningProgress: {},
 
                 API_URL: 'http://localhost:3003',
+
+                initProgress() {
+                    const saved = localStorage.getItem('glitchProgress');
+                    if (saved) {
+                        this.learningProgress = JSON.parse(saved);
+                    } else {
+                        for (let i = 1; i <= 18; i++) {
+                            this.learningProgress[`lf${i}`] = 0;
+                        }
+                    }
+                },
+
+                updateProgress(fach, increment) {
+                    if (!this.learningProgress[fach]) {
+                        this.learningProgress[fach] = 0;
+                    }
+                    this.learningProgress[fach] = Math.min(100, this.learningProgress[fach] + increment);
+                    localStorage.setItem('glitchProgress', JSON.stringify(this.learningProgress));
+                },
 
                 saveToLocalStorage() {
                     const allChats = JSON.parse(localStorage.getItem('glitchChats') || '[]');
