@@ -747,6 +747,43 @@
         .message.glitch .message-bubble blockquote { border-left-color: var(--blue); }
         .message.user   .message-bubble blockquote { border-left-color: rgba(255, 255, 255, 0.5); }
 
+        .voice-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: opacity 0.2s, transform 0.2s;
+            font-size: 18px;
+            padding: 0;
+            margin-left: 8px;
+        }
+
+        .voice-button:hover {
+            opacity: 0.8;
+            transform: scale(1.1);
+        }
+
+        .voice-button.playing {
+            opacity: 1;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .message-wrapper {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
         .message-bubble h1,
         .message-bubble h2,
         .message-bubble h3 {
@@ -1485,7 +1522,12 @@
                             </template>
 
                             <template x-if="!msg.wordsAssigned && !msg.levelUp">
-                                <div class="message-bubble" x-html="renderMarkdown(msg.content)"></div>
+                                <div class="message-wrapper">
+                                    <div class="message-bubble" x-html="renderMarkdown(msg.content)"></div>
+                                    <template x-if="msg.role === 'glitch' && msg.content">
+                                        <button class="voice-button" @click="speakMessage(msg.content, msg.id)" :data-msg-id="msg.id" title="Vorlesen">🔊</button>
+                                    </template>
+                                </div>
                             </template>
 
                         </div>
@@ -1658,6 +1700,50 @@
                     localStorage.setItem('glitchProgress', JSON.stringify(this.learningProgress));
                 },
 
+                speakMessage(text, msgId) {
+                    if (!window.speechSynthesis) return;
+
+                    // Stoppe vorherige Rede
+                    window.speechSynthesis.cancel();
+
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'de-DE';
+                    utterance.rate = 0.95;
+                    utterance.pitch = 1.1;
+                    utterance.volume = 1;
+
+                    // Suche deutsche Frauenstimme
+                    const voices = window.speechSynthesis.getVoices();
+                    const femaleDE = voices.find(v => v.lang.includes('de') && v.name.includes('female'));
+                    const anyDE = voices.find(v => v.lang.includes('de'));
+
+                    if (femaleDE) utterance.voice = femaleDE;
+                    else if (anyDE) utterance.voice = anyDE;
+
+                    // Update button status
+                    const btn = document.querySelector(`[data-msg-id="${msgId}"]`);
+                    if (btn) btn.classList.add('playing');
+
+                    utterance.onend = () => {
+                        if (btn) btn.classList.remove('playing');
+                    };
+
+                    utterance.onerror = () => {
+                        if (btn) btn.classList.remove('playing');
+                    };
+
+                    window.speechSynthesis.speak(utterance);
+                },
+
+                stopSpeaking() {
+                    if (window.speechSynthesis) {
+                        window.speechSynthesis.cancel();
+                        document.querySelectorAll('.voice-button').forEach(btn => {
+                            btn.classList.remove('playing');
+                        });
+                    }
+                },
+
                 saveToLocalStorage() {
                     const allChats = JSON.parse(localStorage.getItem('glitchChats') || '[]');
                     const currentChat = allChats.find(c => c.id === this.currentSessionId);
@@ -1692,6 +1778,7 @@
                 async sendMessage() {
                     if (!this.userInput.trim() || this.isTyping) return;
 
+                    this.stopSpeaking(); // Stop any ongoing speech
                     const text = this.userInput.trim();
                     this.userInput = '';
                     // Blur on mobile to prevent iOS keyboard-dismissal scroll jumping to footer
