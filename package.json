@@ -1,0 +1,22 @@
+{
+  "name": "glitch-pimp",
+  "version": "1.0.0",
+  "description": "Glitch — KI-Lernbegleiter für IT-Ausbildungen",
+  "main": "index.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "serve": "npx http-server -p 3000 -c-1",
+    "build": "echo 'Static site, no build needed'"
+  },
+  "keywords": [
+    "glitch",
+    "learning",
+    "ai",
+    "education"
+  ],
+  "author": "Unwritten Studio",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

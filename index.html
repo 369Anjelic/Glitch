@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glitch — Nicht Stoff lernen. Prüfung denken.</title>
+    <link rel="canonical" href="https://glitch.unwritten.studio">
+
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="de_DE">
+    <meta property="og:title" content="Glitch — Nicht Stoff lernen. Prüfung denken.">
+    <meta property="og:description" content="Der Begleiter für zwei Jahre IT-Ausbildung. Kein Account. Kein Reset. Ein Gedächtnis, das mitdenkt.">
+    <meta property="og:url" content="https://glitch.unwritten.studio">
+    <meta property="og:site_name" content="Unwritten Studio">
+    <meta property="og:image" content="assets/images/glitch-hero.jpg">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Glitch — Nicht Stoff lernen. Prüfung denken.">
+    <meta name="twitter:description" content="Der Begleiter für zwei Jahre IT-Ausbildung. Kein Account. Kein Reset. Ein Gedächtnis, das mitdenkt.">
+    <meta property="twitter:image" content="assets/images/glitch-hero.jpg">
+
+    <!-- Auth Protection -->
+    <script>
+        if (!sessionStorage.getItem('glitch_auth_session')) {
+            window.location.href = 'login.html';
+        }
+    </script>
+
+    <meta name="description" content="Glitch begleitet Fachinformatiker-Azubis durch zwei Jahre Ausbildung — persistentes Gedächtnis, kein Account, alle vier Fachrichtungen.">
+    <meta name="keywords" content="Fachinformatiker Ausbildung, IHK Prüfung, IT-Azubi, Prüfungsvorbereitung, KI Lernbegleiter, Anwendungsentwicklung, Systemintegration">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Unwritten Studio">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Glitch",
+      "description": "KI-Lernbegleiter für IT-Ausbildungen — persistentes Gedächtnis über zwei Jahre",
+      "applicationCategory": "EducationalApplication",
+      "operatingSystem": "Web",
+      "url": "https://glitch.unwritten.studio",
+      "author": {
+        "@type": "Organization",
+        "name": "Unwritten GmbH",
+        "url": "https://unwritten.studio"
+      }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+
+    <style>
+        :root {
+            --blue: #3987b8;
+            --black: #3e4447;
+            --light-gray: #f4f5f5;
+            --white: #ffffff;
+        }
+
+        .text-xl   { font-size: 3rem; }
+        .text-lg   { font-size: 2rem; }
+        .text-md   { font-size: 1.5rem; }
+        .text-base { font-size: 1.1rem; }
+        .text-sm   { font-size: 0.9rem; }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--black);
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+
+        header {
+            padding: 20px 0;
+            background: var(--white);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 400;
+            color: var(--black);
+            text-decoration: none;
+        }
+
+        /* Hero */
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 3rem);
+            font-weight: 300;
+            color: var(--black);
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero-text h1 .highlight {
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            color: var(--black);
+            opacity: 0.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 18px 40px;
+            background: var(--blue);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 400;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #2c6b94;
+            transform: translateY(-2px);
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-height: 420px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Value Proposition */
+
+        .value-proposition {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--blue) 0%, #2c6b94 100%);
+            color: var(--white);
+        }
+
+        .value-inner {
+            text-align: center;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+
+        .value-inner h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        .value-inner p {
+            font-size: 1.35rem;
+            margin-bottom: 50px;
+            opacity: 0.95;
+            line-height: 1.8;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-top: 70px;
+        }
+
+        .value-item {
+            text-align: center;
+        }
+
+        .value-item h4 {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .value-item p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-bottom: 0;
+        }
+
+        /* Features */
+
+        .features {
+            padding: 120px 0;
+            background: var(--white);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--black);
+            margin-bottom: 20px;
+        }
+
+        .section-header .subtitle {
+            font-size: 1.1rem;
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+        }
+
+        .feature {
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .feature-icon {
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .feature-icon img {
+            width: 90px;
+            height: 90px;
+            transition: all 0.3s ease;
+        }
+
+        @media (hover: hover) {
+            .feature-icon:hover img {
+                transform: translateY(-2px);
+                filter: drop-shadow(0 4px 8px rgba(57, 135, 184, 0.2));
+            }
+        }
+
+        .value-icon {
+            margin: 0 auto 12px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .value-icon img {
+            width: 52px;
+            height: 52px;
+            filter: brightness(0) invert(1);
+            opacity: 0.9;
+        }
+
+        .feature h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--black);
+        }
+
+        .feature p {
+            color: var(--black);
+            opacity: 0.8;
+            line-height: 1.7;
+        }
+
+        /* How it works */
+
+        .how-it-works {
+            padding: 120px 0;
+            background: var(--light-gray);
+        }
+
+        .how-content {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
+        .how-content h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 36px;
+        }
+
+        .how-step {
+            margin-bottom: 28px;
+            padding-left: 20px;
+            border-left: 2px solid var(--blue);
+        }
+
+        .how-step h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 8px;
+        }
+
+        .how-step p {
+            opacity: 0.8;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--black);
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+
+        /* Demo */
+
+        .demo-section {
+            padding: 120px 0;
+            background: var(--white);
+        }
+
+        .chat-container {
+            max-width: 800px;
+            margin: 40px auto 0;
+            background: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(62, 68, 71, 0.08);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            padding: 30px;
+            min-height: 400px;
+            max-height: 520px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user { justify-content: flex-end; }
+
+        .message-bubble {
+            padding: 12px 18px;
+            border-radius: 18px;
+            max-width: 80%;
+            line-height: 1.55;
+            word-wrap: break-word;
+        }
+
+        .message.glitch .message-bubble {
+            background: var(--light-gray);
+            color: var(--black);
+        }
+
+        .message.user .message-bubble {
+            background: var(--blue);
+            color: var(--white);
+            margin-left: auto;
+        }
+
+        /* Drei-Wörter-Block */
+
+        .words-block {
+            border: 1.5px solid var(--blue);
+            border-radius: 10px;
+            padding: 18px 22px;
+            background: var(--white);
+            max-width: 80%;
+        }
+
+        .words-label {
+            font-size: 0.82em;
+            opacity: 0.55;
+            margin-bottom: 6px;
+        }
+
+        .words-value {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.25em;
+            color: var(--blue);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .words-hint {
+            font-size: 0.8em;
+            opacity: 0.5;
+            margin-top: 6px;
+        }
+
+        /* Typing */
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 18px;
+            align-items: center;
+        }
+
+        .typing-indicator span {
+            width: 7px;
+            height: 7px;
+            background: rgba(62, 68, 71, 0.35);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-8px); }
+        }
+
+        /* Chat Input */
+
+        .chat-input-container {
+            padding: 20px 30px;
+            border-top: 1px solid var(--light-gray);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: 2px solid var(--light-gray);
+            border-radius: 18px;
+            padding: 12px 20px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1rem;
+            font-weight: 300;
+            transition: border-color 0.3s ease;
+            outline: none;
+            resize: none;
+            min-height: 48px;
+            max-height: 160px;
+            overflow-y: auto;
+            line-height: 1.5;
+        }
+
+        .chat-input:focus { border-color: var(--blue); }
+
+        .send-button {
+            background: var(--blue);
+            color: var(--white);
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .send-button:hover:not(:disabled) {
+            background: #2c6b94;
+            transform: translateY(-2px);
+        }
+
+        .send-button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .export-row {
+            padding: 10px 30px 20px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            row-gap: 7px;
+            align-items: center;
+        }
+
+        .words-display {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: var(--blue);
+            opacity: 0.85;
+            letter-spacing: 0.04em;
+        }
+
+        .export-actions {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+
+        .export-btn {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--black);
+            opacity: 0.7;
+            background: none;
+            border: none;
+            border-bottom: 1px dashed currentColor;
+            padding: 0;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .export-btn:hover:not(:disabled) { opacity: 0.85; }
+        .export-btn:disabled { opacity: 0.2; cursor: not-allowed; }
+
+        /* Markdown in bubbles */
+
+        .message-bubble strong { font-weight: 600; }
+        .message-bubble em { font-style: italic; }
+
+        .message-bubble code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.88em;
+            background: rgba(0, 0, 0, 0.07);
+            padding: 1px 5px;
+            border-radius: 3px;
+            word-break: break-all;
+        }
+
+        .message-bubble pre {
+            overflow-x: auto;
+            max-width: 100%;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 10px 12px;
+            border-radius: 6px;
+            margin: 6px 0;
+        }
+
+        .message-bubble pre code {
+            background: none;
+            padding: 0;
+            word-break: normal;
+            white-space: pre;
+        }
+
+        .message.user .message-bubble code { background: rgba(255, 255, 255, 0.2); }
+        .message.user .message-bubble pre  { background: rgba(255, 255, 255, 0.1); }
+
+        .message-bubble ul,
+        .message-bubble ol { margin: 6px 0 6px 20px; }
+
+        .message-bubble li { margin: 3px 0; }
+        .message-bubble p { margin: 4px 0; }
+        .message-bubble p:first-child { margin-top: 0; }
+        .message-bubble p:last-child  { margin-bottom: 0; }
+
+        .message-bubble blockquote {
+            border-left: 3px solid;
+            margin: 8px 0;
+            padding-left: 12px;
+            opacity: 0.8;
+        }
+
+        .message.glitch .message-bubble blockquote { border-left-color: var(--blue); }
+        .message.user   .message-bubble blockquote { border-left-color: rgba(255, 255, 255, 0.5); }
+
+        .message-bubble h1,
+        .message-bubble h2,
+        .message-bubble h3 {
+            font-weight: 600;
+            font-size: 1em;
+            margin: 8px 0 4px;
+        }
+
+        /* Mastery Chain */
+
+        .mastery-chain {
+            display: flex;
+            align-items: baseline;
+            gap: 5px;
+        }
+
+        .mastery-level {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 12px;
+            color: var(--black);
+            opacity: 0.65;
+            letter-spacing: 0.02em;
+            transition: opacity 0.2s ease;
+            cursor: default;
+            position: relative;
+        }
+
+        .mastery-level:not(.active):hover {
+            opacity: 0.55;
+        }
+
+        .mastery-level.active {
+            color: var(--blue);
+            opacity: 1;
+        }
+
+        /* tooltip: alle level (auch aktiver) */
+        .mastery-level[data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--black);
+            color: var(--white);
+            padding: 5px 9px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 300;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.92;
+        }
+
+        /* joker tooltip */
+        .joker-icons[data-tooltip] {
+            position: relative;
+        }
+
+        .joker-icons[data-tooltip]:hover::after {
+            content: "Du hast genau drei Joker für die gesamte Ausbildung,\A falls du einmal stecken bleibst — use wisely!";
+            position: absolute;
+            bottom: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--black);
+            color: var(--white);
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 300;
+            white-space: pre;
+            line-height: 1.5;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.92;
+        }
+
+        .mastery-sep {
+            font-size: 11px;
+            opacity: 0.5;
+            color: var(--black);
+            user-select: none;
+        }
+
+        .user-label,
+        .mastery-label,
+        .export-group-label {
+            font-size: 13px;
+            opacity: 0.75;
+        }
+
+        .export-sep {
+            font-size: 14px;
+            opacity: 0.5;
+            user-select: none;
+        }
+
+        /* Joker Icons */
+
+        .joker-icons {
+            display: flex;
+            gap: 1px;
+            cursor: pointer;
+        }
+
+        .joker-icon {
+            font-size: 13px;
+            line-height: 1;
+        }
+
+        .joker-icon.spent {
+            opacity: 0.15;
+            filter: grayscale(1);
+        }
+
+        .joker-icons:not([disabled]):hover .joker-icon:not(.spent) {
+            opacity: 0.75;
+        }
+
+        /* Level-Up Block */
+
+        .level-up-block {
+            border: 2px solid var(--blue);
+            border-radius: 10px;
+            padding: 18px 22px;
+            background: var(--light-gray);
+            max-width: 80%;
+        }
+
+        .level-up-label {
+            font-size: 0.82em;
+            opacity: 0.55;
+            margin-bottom: 6px;
+        }
+
+        .level-up-value {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.25em;
+            color: var(--blue);
+            font-weight: 700;
+            letter-spacing: 0.04em;
+        }
+
+        .level-up-hint {
+            font-size: 0.85em;
+            opacity: 0.65;
+            margin-top: 6px;
+        }
+
+        /* Footer */
+
+        footer {
+            padding: 60px 0;
+            background: var(--black);
+            color: var(--white);
+            text-align: center;
+        }
+
+        .footer-cta { margin-bottom: 40px; }
+
+        .footer-cta h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .footer-contact {
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .footer-contact a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-contact a:hover { opacity: 1; text-decoration: underline; }
+
+        .footer-meta {
+            margin-top: 20px;
+            font-size: 0.75rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .value-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .demo-section { padding: 80px 0; }
+
+            .chat-messages {
+                min-height: 350px;
+                padding: 20px;
+            }
+
+            .message-bubble { max-width: 88%; }
+            .words-block     { max-width: 88%; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding-top: 70px; }
+
+            .hero {
+                min-height: calc(100vh - 70px);
+                padding: 100px 0 60px;
+            }
+
+            .hero-text h1 {
+                font-size: 1.9rem;
+                line-height: 1.15;
+            }
+
+            .hero-text p { font-size: 1rem; }
+
+            .value-proposition { padding: 80px 0; }
+            .value-inner p     { font-size: 1.1rem; }
+            .value-grid        { grid-template-columns: 1fr 1fr; gap: 24px; }
+
+            .features { padding: 80px 0; }
+
+            .how-it-works { padding: 80px 0; }
+            .stats-grid   { grid-template-columns: repeat(2, 1fr); }
+
+            .chat-input-container { padding: 16px 20px; }
+            .chat-messages        { padding: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="https://unwritten.studio/" class="logo">unwritten</a>
+            <a href="dashboard.html" style="padding: 10px 20px; background: #3987b8; color: white; text-decoration: none; border-radius: 6px; font-size: 0.95rem; transition: all 0.3s ease;" onmouseover="this.style.background='#2c6b94'" onmouseout="this.style.background='#3987b8'">📊 Dashboard</a>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Zwei Jahre. Vier Fachrichtungen.<br><span class="highlight">100% Bock.</span></h1>
+                    <p>Kein Lernprogramm. Kein Erklär-Bär. Glitch ist immer bei dir. Erinnert dich an das, was du gestern nicht verstanden hast. Holt dich morgen genau dort wieder ab.</p>
+                    <a href="#demo" class="cta-button">Glitch starten</a>
+                </div>
+
+                <div class="hero-visual">
+                    <video class="hero-image" autoplay muted loop playsinline>
+                        <source src="assets/images/moving-glitch-v2.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Value Proposition -->
+    <section class="value-proposition">
+        <div class="container">
+            <div class="value-inner">
+                <h2>Kein Bot. Kein Ausbilder. <strong>Ein Glitch.</strong></h2>
+                <p>Glitch manövriert dich von "den Stoff verstanden" zu "dem Prüfer überzeugend erklären können". Wir surfen gemeinsam das Curriculum. Statt sinnlosem Auswendig-Lernen fokussieren wir uns auf KI und die neue Welt da draußen. Kein unpersönlicher Reset nach jedem Gespräch. Stattdessen drei magische Wörter für deinen persönlichen Zugang.</p>
+
+                <div class="value-grid">
+                    <div class="value-item">
+                        <div class="value-icon"><img src="assets/images/infinity-icon.svg" alt="" width="52" height="52"></div>
+                        <h4>Kein Vergessen</h4>
+                        <p>Zwei Jahre Lernhistorie — jederzeit abrufbar</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon"><img src="assets/images/target-icon.svg" alt="" width="52" height="52"></div>
+                        <h4>Kein Account</h4>
+                        <p>Drei Wörter. Die gehören dir. Fertig.</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon"><img src="assets/images/compass-icon.svg" alt="" width="52" height="52"></div>
+                        <h4>Alle Fachrichtungen</h4>
+                        <p>AE, SI, DV, DPA — Glitch kennt den Unterschied</p>
+                    </div>
+                    <div class="value-item">
+                        <div class="value-icon"><img src="assets/images/graduation-icon.svg" alt="" width="52" height="52"></div>
+                        <h4>Reality-Check</h4>
+                        <p>Was gefragt wird — nicht was im Rahmenplan steht.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header">
+                <div class="subtitle">Was Glitch einzigartig macht</div>
+                <h2>Glitch vergisst nicht. Anders als du drei Tage vor der AP1.</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature">
+                    <div class="feature-icon">
+                        <img src="assets/images/sparkle-icon.svg" alt="KI als Referenzmodell" width="90" height="90">
+                    </div>
+                    <h3>KI als Referenzmodell</h3>
+                    <p>Kein Buzzword-Bingo. Jedes Thema wird dort verankert, wo es heute wirklich passiert: APIs, Vektordatenbanken, Inference-Cluster, DSGVO an Training Data. Prüfungsrelevant und zukunftsfähig.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">
+                        <img src="assets/images/user-profile-icon.svg" alt="Glitch lernt dich" width="90" height="90">
+                    </div>
+                    <h3>Glitch lernt dich</h3>
+                    <p>Kein Onboarding-Formular. Glitch lernt im Gespräch — Fachrichtung, Ausbildungsjahr, Confidence-Level pro Themengebiet. Was dabei rauskommt, ist kein generisches Skript sondern dein persönlicher Stand.</p>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">
+                        <img src="assets/images/book-icon.svg" alt="Dein Lerntagebuch" width="90" height="90">
+                    </div>
+                    <h3>Dein Lerntagebuch</h3>
+                    <p>Jederzeit: Lernfortschritt als Markdown exportieren. Meilensteine, Confidence-Scores, Summary — ein Entwicklungstagebuch, das für Transparenz und den Überblick sorgt.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="how-content">
+                <h3>So funktioniert Glitch</h3>
+
+                <div class="how-step">
+                    <h4>Reinschreiben. Fertig.</h4>
+                    <p>Kein Onboarding. Kein Dropdown. Glitch fragt, was dich gerade beschäftigt — und lernt dabei. Nach ein paar echten Gesprächen weiß Glitch genug über dich.</p>
+                </div>
+
+                <div class="how-step">
+                    <h4>Drei Wörter statt Account</h4>
+                    <p>Sobald Glitch weiß, dass du angekommen bist — sobald du echte, ernste Fragen stellst — bekommst du deine drei Zugangsworte. Schreib sie auf. Sie bringen dich immer zurück. Egal welcher Browser, egal welches Gerät. Auch nach den Sommerferien.</p>
+                </div>
+
+                <div class="how-step">
+                    <h4>Begleitung bis zur Prüfung</h4>
+                    <p>Glitch erinnert sich, was du beim letzten Mal nicht verstanden hast, wo dein Confidence-Level liegt, und wann deine AP1 ist. Das Gespräch geht weiter — nie von vorn.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat">
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Login</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">1</div>
+                        <div class="stat-label">Gedächtnis</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Worte</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">4</div>
+                        <div class="stat-label">Fachrichtungen</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo -->
+    <section id="demo" class="demo-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="subtitle">Mach's einfach</div>
+                <h2>Direkt einsteigen.</h2>
+                <p style="max-width: 600px; margin: 20px auto 0; opacity: 0.75;">Glitch lernt dich im Gespräch kennen. Keine Dropdowns, keine Formulare. Einfach losschreiben — und wenn du wiederkommst, gib deine drei Wörter ein.</p>
+            </div>
+
+            <div class="chat-container" x-data="glitchChat()">
+                <div class="chat-messages" x-ref="messages">
+
+                    <template x-for="msg in messages" :key="msg.id">
+                        <div :class="'message ' + msg.role">
+
+                            <template x-if="msg.wordsAssigned">
+                                <div class="words-block">
+                                    <div class="words-label">Deine drei Wörter:</div>
+                                    <div class="words-value" x-text="msg.wordsAssigned"></div>
+                                    <div class="words-hint">Schreib sie auf. Sie bringen dich zurück.</div>
+                                </div>
+                            </template>
+
+                            <template x-if="msg.levelUp && !msg.wordsAssigned">
+                                <div class="level-up-block">
+                                    <div class="level-up-label">Level erreicht:</div>
+                                    <div class="level-up-value" x-text="`git ${msg.levelUp}`"></div>
+                                    <div class="level-up-hint" x-text="levelUpHint(msg.levelUp)"></div>
+                                </div>
+                            </template>
+
+                            <template x-if="!msg.wordsAssigned && !msg.levelUp">
+                                <div class="message-bubble" x-html="renderMarkdown(msg.content)"></div>
+                            </template>
+
+                        </div>
+                    </template>
+
+                    <template x-if="isTyping">
+                        <div class="message glitch">
+                            <div class="message-bubble">
+                                <div class="typing-indicator">
+                                    <span></span><span></span><span></span>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                </div>
+
+                <div class="chat-input-container">
+                    <textarea
+                        class="chat-input"
+                        placeholder="Wo hängst du gerade?"
+                        x-model="userInput"
+                        x-ref="chatInput"
+                        @keydown="$event.key === 'Enter' && !$event.shiftKey ? ($event.preventDefault(), sendMessage()) : null"
+                        @input="$event.target.style.height = 'auto'; $event.target.style.height = $event.target.scrollHeight + 'px'"
+                        :disabled="isTyping"
+                        rows="1"
+                    ></textarea>
+                    <button
+                        class="send-button"
+                        @click="sendMessage()"
+                        :disabled="isTyping || !userInput.trim()"
+                        aria-label="Senden"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="export-row" x-show="words">
+
+                    <!-- Zeile 1 links: Identifier -->
+                    <div style="display: flex; align-items: baseline; gap: 5px;">
+                        <span class="user-label">user:</span>
+                        <span class="words-display" x-text="words"></span>
+                    </div>
+
+                    <!-- Zeile 1 rechts: markdown export label -->
+                    <div style="display: flex; align-items: center; justify-content: flex-start;">
+                        <span class="export-group-label">markdown export:</span>
+                    </div>
+
+                    <!-- Zeile 2 links: Mastery Level Chain + Joker -->
+                    <div class="mastery-chain" x-show="level">
+                        <span class="mastery-label">mastery level:</span>
+                        <span :class="level === 'draft'  ? 'mastery-level active' : 'mastery-level'" data-tooltip="Anfänger, erste Berührung">draft</span>
+                        <span class="mastery-sep">—</span>
+                        <span :class="level === 'commit' ? 'mastery-level active' : 'mastery-level'" data-tooltip="Grundlagen sitzen, kannst es erklären">commit</span>
+                        <span class="mastery-sep">—</span>
+                        <span :class="level === 'merge'  ? 'mastery-level active' : 'mastery-level'" data-tooltip="Kannst es anwenden, auch in Kombinationen">merge</span>
+                        <span class="mastery-sep">—</span>
+                        <span :class="level === 'deploy' ? 'mastery-level active' : 'mastery-level'" data-tooltip="Prüfungsreif, automatisiert abrufbar">deploy</span>
+                        <span
+                            class="joker-icons"
+                            x-show="jokers !== null"
+                            @click="jokers > 0 && !isTyping && useJoker()"
+                            :style="jokers > 0 && !isTyping ? 'cursor:pointer;margin-left:1rem' : 'cursor:default;margin-left:1rem'"
+                            data-tooltip="Du hast genau drei Joker für die gesamte Ausbildung,&#10;falls du einmal stecken bleibst — use wisely!"
+                        >
+                            <span :class="(jokers ?? 0) >= 1 ? 'joker-icon' : 'joker-icon spent'">🪄</span>
+                            <span :class="(jokers ?? 0) >= 2 ? 'joker-icon' : 'joker-icon spent'">🪄</span>
+                            <span :class="(jokers ?? 0) >= 3 ? 'joker-icon' : 'joker-icon spent'">🪄</span>
+                        </span>
+                    </div>
+
+                    <!-- Zeile 2 rechts: Export-Links -->
+                    <div class="export-actions" style="justify-content: flex-start;">
+                        <button
+                            class="export-btn"
+                            @click="exportDiary()"
+                            :disabled="isExporting"
+                        >tagebuch</button>
+                        <span class="export-sep" style="margin: 0 4px;">·</span>
+                        <button
+                            class="export-btn"
+                            @click="exportProgress()"
+                            :disabled="isExporting"
+                            x-text="isExporting ? '…' : 'lernfortschritt'"
+                        ></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-cta">
+                <h3>Glitch für dein Unternehmen? Wenn du Azubis ausbildest und dir wünscht, dass sie nicht nur eine Prüfung bestehen, sondern die Welt um sie herum verstehen — dann schreib uns.</h3>
+                <a href="mailto:hello@unwritten.studio" class="cta-button">Glitch anfordern</a>
+            </div>
+            <div class="footer-contact">
+                <p><a href="https://glitch.unwritten.studio">glitch.unwritten.studio</a> &nbsp;|&nbsp; <a href="mailto:hello@unwritten.studio">hello@unwritten.studio</a></p>
+                <p>Unwritten GmbH, Adlerweg 6, 90530 Wendelstein</p>
+                <p style="margin-top: 20px; font-size: 0.8rem;"><a href="https://unwritten.studio/privacy-policy">Privacy Policy</a></p>
+                <p class="footer-meta" id="glitch-build"></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Build version: uses document.lastModified (auto-updated on each deploy via GitHub Pages)
+        (function() {
+            const d = new Date(document.lastModified);
+            const pad = n => String(n).padStart(2, '0');
+            const stamp = `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+            const el = document.getElementById('glitch-build');
+            if (el) el.textContent = `build ${stamp}`;
+        })();
+    </script>
+
+    <script>
+        const GLITCH_VERSION = '2.1';
+
+        function glitchChat() {
+            return {
+                messages: [
+                    {
+                        id: 1,
+                        role: 'glitch',
+                        content: 'Ich bin Glitch. Fehler sind keine Probleme — sie sind Hinweise. Was hat dich ins Stocken gebracht?',
+                        timestamp: new Date().toISOString(),
+                    }
+                ],
+                userInput: '',
+                isTyping: false,
+                isExporting: false,
+                words: null,
+                level: null,
+                jokers: null,
+                localHistory: [],
+                messageIdCounter: 2,
+                currentSessionId: Date.now(),
+
+                API_URL: 'https://glitch-api.post-666.workers.dev',
+
+                saveToLocalStorage() {
+                    const allChats = JSON.parse(localStorage.getItem('glitchChats') || '[]');
+                    const currentChat = allChats.find(c => c.id === this.currentSessionId);
+
+                    if (currentChat) {
+                        currentChat.messages = this.messages;
+                    } else {
+                        allChats.push({
+                            id: this.currentSessionId,
+                            timestamp: new Date().toISOString(),
+                            words: this.words,
+                            messages: this.messages
+                        });
+                    }
+
+                    localStorage.setItem('glitchChats', JSON.stringify(allChats));
+                },
+
+                renderMarkdown(text) {
+                    const html = marked.parse(text);
+                    return DOMPurify.sanitize(html, {
+                        ALLOWED_TAGS: ['strong', 'em', 'code', 'p', 'ul', 'ol', 'li', 'a', 'blockquote', 'h1', 'h2', 'h3', 'hr', 'br', 'pre'],
+                        ALLOWED_ATTR: ['href'],
+                    });
+                },
+
+                detectWords(text) {
+                    const match = text.match(/\b([a-z]{3,12})\.([a-z]{3,12})\.([a-z]{3,12})\b/i);
+                    return match ? match[0].toLowerCase() : null;
+                },
+
+                async sendMessage() {
+                    if (!this.userInput.trim() || this.isTyping) return;
+
+                    const text = this.userInput.trim();
+                    this.userInput = '';
+                    // Blur on mobile to prevent iOS keyboard-dismissal scroll jumping to footer
+                    if (this.$refs.chatInput) this.$refs.chatInput.blur();
+                    this.$nextTick(() => { if (this.$refs.chatInput) this.$refs.chatInput.style.height = 'auto'; });
+
+                    this.messages.push({
+                        id: this.messageIdCounter++,
+                        role: 'user',
+                        content: text,
+                        timestamp: new Date().toISOString()
+                    });
+                    this.scrollToBottom();
+                    this.saveToLocalStorage();
+                    this.isTyping = true;
+
+                    // Wiederkehrende User erkennen
+                    if (!this.words) {
+                        const detected = this.detectWords(text);
+                        if (detected) {
+                            const identified = await this.identify(detected);
+                            if (identified) {
+                                // Drei Wörter sind Login-Token, nicht Chat-Inhalt.
+                                // Willkommen zurück anzeigen, Nachricht NICHT an /chat schicken.
+                                this.isTyping = false;
+                                const name = identified.profile?.name;
+                                const welcome = name
+                                    ? `${name}. Alles da. Was kommt als nächstes?`
+                                    : `Alles da. Wo wollen wir weitermachen?`;
+                                this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: welcome });
+                                this.scrollToBottom();
+                                return;
+                            } else {
+                                // Wörter-Format erkannt, aber nicht gefunden — hilfreiche Meldung
+                                this.isTyping = false;
+                                this.messages.push({
+                                    id: this.messageIdCounter++,
+                                    role: 'glitch',
+                                    content: `\`${detected}\` — diese Wörter kenne ich nicht. Tippfehler? Format: alles klein, Punkte als Trennzeichen (z.B. \`kernel.moor.glide\`). Wenn du noch keine hast, einfach losschreiben.`,
+                                });
+                                this.scrollToBottom();
+                                return;
+                            }
+                        }
+                    }
+
+                    try {
+                        const res = await fetch(`${this.API_URL}/chat`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                message: text,
+                                words: this.words,
+                                history: this.words ? [] : this.localHistory,
+                            }),
+                        });
+
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error || 'Fehler');
+
+                        this.isTyping = false;
+
+                        this.messages.push({
+                            id: this.messageIdCounter++,
+                            role: 'glitch',
+                            content: data.response,
+                            timestamp: new Date().toISOString()
+                        });
+                        this.saveToLocalStorage();
+
+                        if (data.words_assigned) {
+                            this.words  = data.words_assigned;
+                            this.level  = 'draft';
+                            this.jokers = 3;
+                            this.messages.push({
+                                id: this.messageIdCounter++,
+                                role: 'glitch',
+                                wordsAssigned: data.words_assigned,
+                                content: '',
+                            });
+                        }
+
+                        if (data.level_up) {
+                            this.level = data.level_up;
+                            this.messages.push({
+                                id: this.messageIdCounter++,
+                                role: 'glitch',
+                                levelUp: data.level_up,
+                                content: '',
+                            });
+                        }
+
+                        if (data.jokers_remaining !== null && data.jokers_remaining !== undefined) {
+                            this.jokers = data.jokers_remaining;
+                        }
+
+                        if (!this.words) {
+                            this.localHistory.push({ role: 'user',      content: text });
+                            this.localHistory.push({ role: 'assistant', content: data.response });
+                        }
+
+                        this.scrollToBottom(true); // scroll to start of new response
+
+                    } catch (err) {
+                        console.error('Chat error:', err);
+                        this.isTyping = false;
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: 'Da ist etwas schiefgelaufen. Versuch es nochmal.' });
+                        this.scrollToBottom();
+                    }
+                },
+
+                async identify(words) {
+                    try {
+                        const res = await fetch(`${this.API_URL}/identify`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ words }),
+                        });
+                        const data = await res.json();
+                        if (data.found) {
+                            this.words  = words;
+                            this.level  = data.profile?.level  || 'draft';
+                            this.jokers = data.profile?.jokers ?? 3;
+                            return data;
+                        }
+                        return null;
+                    } catch (err) {
+                        console.error('Identify error:', err);
+                        return null;
+                    }
+                },
+
+                async exportDiary() {
+                    if (!this.words || this.isExporting) return;
+                    this.isExporting = true;
+                    try {
+                        const res = await fetch(`${this.API_URL}/history`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ words: this.words }),
+                        });
+                        const data = await res.json();
+                        const history = data.history || [];
+                        if (!history.length) throw new Error('Keine Einträge');
+
+                        const today = new Date().toISOString().split('T')[0];
+                        let md = `# Glitch — Gesprächstagebuch\n`;
+                        md += `**Identifier:** \`${this.words}\`\n`;
+                        md += `**Exportiert:** ${today}\n`;
+                        md += `**Einträge:** ${history.length}\n\n---\n\n`;
+
+                        let lastDate = null;
+                        for (const msg of history) {
+                            const date = msg.ts ? msg.ts.split('T')[0] : today;
+                            if (date !== lastDate) {
+                                md += `## ${date}\n\n`;
+                                lastDate = date;
+                            }
+                            const role = msg.role === 'user' ? '**Du**' : '**Glitch**';
+                            md += `${role}\n${msg.content}\n\n`;
+                        }
+
+                        md += `---\n_Exportiert aus Glitch — glitch.unwritten.studio_`;
+
+                        const blob = new Blob([md], { type: 'text/markdown' });
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = `glitch-tagebuch-${this.words}-${today}.md`;
+                        a.click();
+                        URL.revokeObjectURL(a.href);
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: `Tagebuch exportiert — ${history.length} Einträge.` });
+                        this.scrollToBottom();
+                    } catch (err) {
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: 'Tagebuch-Export fehlgeschlagen.' });
+                    } finally {
+                        this.isExporting = false;
+                    }
+                },
+
+                async exportProgress() {
+                    if (!this.words || this.isExporting) return;
+                    this.isExporting = true;
+                    try {
+                        const res = await fetch(`${this.API_URL}/export`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ words: this.words }),
+                        });
+                        const data = await res.json();
+                        if (!data.markdown) throw new Error('Kein Inhalt');
+                        const blob = new Blob([data.markdown], { type: 'text/markdown' });
+                        const a = document.createElement('a');
+                        a.href = URL.createObjectURL(blob);
+                        a.download = `glitch-lernweg-${this.words}-${new Date().toISOString().split('T')[0]}.md`;
+                        a.click();
+                        URL.revokeObjectURL(a.href);
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: 'Dein Lernfortschritt wurde als Markdown-Datei heruntergeladen.' });
+                        this.scrollToBottom();
+                    } catch (err) {
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: 'Export fehlgeschlagen.' });
+                    } finally {
+                        this.isExporting = false;
+                    }
+                },
+
+                async useJoker() {
+                    if (!this.words || !this.jokers || this.jokers <= 0 || this.isTyping) return;
+
+                    this.isTyping = true;
+                    this.messages.push({
+                        id: this.messageIdCounter++,
+                        role: 'user',
+                        content: 'Joker eingesetzt — direkte Antwort bitte.',
+                    });
+                    this.scrollToBottom();
+
+                    try {
+                        const res = await fetch(`${this.API_URL}/chat`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                message: 'Joker eingesetzt. Erkläre mir das aktuelle Thema direkt und vollständig.',
+                                words: this.words,
+                                joker: true,
+                            }),
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error || 'Fehler');
+
+                        this.isTyping = false;
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: data.response });
+
+                        if (data.jokers_remaining !== null && data.jokers_remaining !== undefined) {
+                            this.jokers = data.jokers_remaining;
+                        }
+                        this.scrollToBottom();
+                    } catch (err) {
+                        console.error('Joker error:', err);
+                        this.isTyping = false;
+                        this.messages.push({ id: this.messageIdCounter++, role: 'glitch', content: 'Joker fehlgeschlagen.' });
+                        this.scrollToBottom();
+                    }
+                },
+
+                levelUpHint(level) {
+                    const hints = {
+                        commit: 'Grundlagen sitzen. Weiter.',
+                        merge:  'Du denkst wie ein Entwickler.',
+                        deploy: 'In Production. Prüfungsreif.',
+                    };
+                    return hints[level] || '';
+                },
+
+                scrollToBottom(toResponseStart = false) {
+                    this.$nextTick(() => {
+                        const el = this.$refs.messages;
+                        if (toResponseStart) {
+                            // Scroll to the top of the last glitch message so user reads from beginning
+                            const lastGlitch = el.querySelectorAll('.message.glitch');
+                            const target = lastGlitch[lastGlitch.length - 1];
+                            if (target) {
+                                el.scrollTop = target.offsetTop - el.offsetTop - 20;
+                            } else {
+                                el.scrollTop = el.scrollHeight;
+                            }
+                        } else {
+                            el.scrollTop = el.scrollHeight;
+                        }
+                        // Mobile fix: after iOS keyboard dismissal the window may scroll to footer.
+                        // Wait for keyboard animation, then scroll to show input (block: nearest
+                        // = no-op if already visible, minimal scroll if off-screen).
+                        setTimeout(() => {
+                            if (this.$refs.chatInput) {
+                                this.$refs.chatInput.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            }
+                        }, 100);
+                    });
+                },
+            };
+        }
+    </script>
+
+</body>
+</html>

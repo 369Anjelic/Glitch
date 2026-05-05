@@ -1,0 +1,52 @@
+<svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Offenes Buch im Origami-Stil -->
+  <!-- Linke Buchseite -->
+  <path d="M20 25 L38 25 L40 27 L40 60 L38 62 L20 60 L18 58 L18 27 Z" 
+        fill="none" 
+        stroke="#3e4447" 
+        stroke-width="2" 
+        stroke-linejoin="bevel"/>
+  
+  <!-- Rechte Buchseite -->
+  <path d="M42 27 L44 25 L62 25 L64 27 L64 58 L62 60 L44 62 L42 60 Z" 
+        fill="none" 
+        stroke="#3e4447" 
+        stroke-width="2" 
+        stroke-linejoin="bevel"/>
+  
+  <!-- Buchrücken/Bindung -->
+  <line x1="40" y1="27" x2="40" y2="60" stroke="#3e4447" stroke-width="2"/>
+  
+  <!-- Faltlinien auf der linken Seite -->
+  <line x1="22" y1="30" x2="36" y2="30" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="22" y1="35" x2="36" y2="35" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="22" y1="40" x2="36" y2="40" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="22" y1="45" x2="36" y2="45" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="22" y1="50" x2="36" y2="50" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="22" y1="55" x2="36" y2="55" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Faltlinien auf der rechten Seite -->
+  <line x1="46" y1="30" x2="60" y2="30" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="46" y1="35" x2="60" y2="35" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="46" y1="40" x2="60" y2="40" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="46" y1="45" x2="60" y2="45" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="46" y1="50" x2="60" y2="50" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  <line x1="46" y1="55" x2="60" y2="55" stroke="#3e4447" stroke-width="1" opacity="0.3"/>
+  
+  <!-- Charakteristische warme Akzente als "Wissen" -->
+  <circle cx="29" cy="32" r="1.5" fill="#3e4447"/>
+  <circle cx="33" cy="37" r="1.5" fill="#3e4447"/>
+  <circle cx="26" cy="42" r="1.5" fill="#3e4447"/>
+  <circle cx="31" cy="47" r="1.5" fill="#3e4447"/>
+  
+  <circle cx="49" cy="32" r="1.5" fill="#3e4447"/>
+  <circle cx="53" cy="37" r="1.5" fill="#3e4447"/>
+  <circle cx="47" cy="42" r="1.5" fill="#3e4447"/>
+  <circle cx="55" cy="47" r="1.5" fill="#3e4447"/>
+  
+  <!-- Verbindungslinien als "Wissensvernetzung" -->
+  <line x1="29" y1="32" x2="33" y2="37" stroke="#3e4447" stroke-width="1" opacity="0.5"/>
+  <line x1="26" y1="42" x2="31" y2="47" stroke="#3e4447" stroke-width="1" opacity="0.5"/>
+  <line x1="49" y1="32" x2="53" y2="37" stroke="#3e4447" stroke-width="1" opacity="0.5"/>
+  <line x1="47" y1="42" x2="55" y2="47" stroke="#3e4447" stroke-width="1" opacity="0.5"/>
+</svg>
