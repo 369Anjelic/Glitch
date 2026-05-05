@@ -797,6 +797,79 @@
             color: var(--blue);
         }
 
+        /* Learning Status Panel */
+        .learning-status-panel {
+            margin-top: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--light-gray) 0%, rgba(57, 135, 184, 0.05) 100%);
+            border-radius: 10px;
+            border: 1px solid rgba(57, 135, 184, 0.2);
+        }
+
+        .learning-status-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .learning-fields-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .learning-field-item {
+            background: var(--white);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(57, 135, 184, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .learning-field-item:hover {
+            border-color: var(--blue);
+            box-shadow: 0 2px 8px rgba(57, 135, 184, 0.1);
+        }
+
+        .learning-field-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 6px;
+        }
+
+        .learning-field-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .learning-field-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--blue) 0%, #2c6b94 100%);
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .learning-field-percent {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--blue);
+            text-align: right;
+        }
+
+        @media (max-width: 768px) {
+            .learning-fields-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
         .message-bubble h1,
         .message-bubble h2,
         .message-bubble h3 {
@@ -1633,6 +1706,76 @@
                         ></button>
                     </div>
 
+                </div>
+
+                <!-- Learning Status Panel for LF4-LF12 -->
+                <div class="learning-status-panel">
+                    <div class="learning-status-title">📊 Dein Fortschritt (LF4-LF12)</div>
+                    <div class="learning-fields-grid">
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF4 Frontend</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf4'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf4'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF5 Backend</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf5'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf5'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF6 Sicherheit</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf6'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf6'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF7 Mobile iOS</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf7'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf7'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF8 Android</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf8'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf8'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF9 Cross-Platform</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf9'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf9'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF10 Patterns</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf10'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf10'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF11 Testing</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf11'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf11'] || 0}%`"></div>
+                        </div>
+                        <div class="learning-field-item">
+                            <div class="learning-field-label">LF12 Team</div>
+                            <div class="learning-field-bar">
+                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf12'] || 0}%`"></div>
+                            </div>
+                            <div class="learning-field-percent" x-text="`${learningProgress['lf12'] || 0}%`"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
             </div>
