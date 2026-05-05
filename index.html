@@ -1158,9 +1158,13 @@
                         <span class="fach-toggle" :class="{'open': openFach.includes('lf4')}">›</span>
                     </div>
                     <div class="fach-topics" :class="{'show': openFach.includes('lf4')}">
-                        <div class="topic-item" @click="insertTopic('LF4: HTML & CSS')">HTML/CSS</div>
-                        <div class="topic-item" @click="insertTopic('LF4: JavaScript & DOM')">JavaScript</div>
-                        <div class="topic-item" @click="insertTopic('LF4: Responsive Design')">Responsive</div>
+                        <div class="topic-item" @click="insertTopic('LF4: HTML & CSS Grundlagen')">HTML/CSS</div>
+                        <div class="topic-item" @click="insertTopic('LF4: JavaScript & DOM Manipulation')">JavaScript</div>
+                        <div class="topic-item" @click="insertTopic('LF4: Responsive Design & Mobile First')">Responsive</div>
+                        <div class="topic-item" @click="insertTopic('LF4: Python mit Django für Frontend')">Django Frontend</div>
+                        <div class="topic-item" @click="insertTopic('LF4: Python Flask & Template Rendering')">Flask Templates</div>
+                        <div class="topic-item" @click="insertTopic('LF4: Python FastAPI mit React/Vue')">FastAPI</div>
+                        <div class="topic-item" @click="insertTopic('LF4: Jinja2 & Python Templating')">Jinja2</div>
                     </div>
 
                     <div class="fach-item" @click="toggleFach('lf5')" :class="{'active': activeFach === 'lf5'}">
