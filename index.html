@@ -784,6 +784,19 @@
             gap: 8px;
         }
 
+        .message.system {
+            background: linear-gradient(135deg, rgba(57, 135, 184, 0.1), rgba(57, 135, 184, 0.05));
+            border-left: 3px solid var(--blue);
+            padding-left: 15px;
+            margin: 12px 0;
+        }
+
+        .message.system .message-bubble {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--blue);
+        }
+
         .message-bubble h1,
         .message-bubble h2,
         .message-bubble h3 {
@@ -1524,7 +1537,7 @@
                             <template x-if="!msg.wordsAssigned && !msg.levelUp">
                                 <div class="message-wrapper">
                                     <div class="message-bubble" x-html="renderMarkdown(msg.content)"></div>
-                                    <template x-if="msg.role === 'glitch' && msg.content">
+                                    <template x-if="msg.role === 'glitch' && msg.content && msg.role !== 'system'">
                                         <button class="voice-button" @click="speakMessage(msg.content, msg.id)" :data-msg-id="msg.id" title="Vorlesen">🔊</button>
                                     </template>
                                 </div>
@@ -1744,6 +1757,45 @@
                     }
                 },
 
+                detectAndTrackLearningProgress(text) {
+                    // Detektiere welches Lernfeld in der Antwort besprochen wird
+                    const lfPattern = /LF(\d{1,2})/gi;
+                    const matches = text.match(lfPattern);
+
+                    if (matches && matches.length > 0) {
+                        // Lerne über mehrere Felder in einer Antwort
+                        const uniqueLFs = [...new Set(matches.map(m => m.toLowerCase()))];
+
+                        uniqueLFs.forEach(lf => {
+                            // Base progress increment (mehr bei längeren Texten)
+                            const baseIncrement = Math.min(15, Math.max(5, Math.floor(text.length / 100)));
+
+                            // Zusätzlicher Bonus für wiederholtes Lernen
+                            const currentProgress = this.learningProgress[lf] || 0;
+                            const depthBonus = currentProgress > 50 ? 2 : currentProgress > 25 ? 1.5 : 1;
+
+                            const finalIncrement = Math.floor(baseIncrement * depthBonus);
+                            this.updateProgress(lf, finalIncrement);
+                        });
+
+                        // Feedback geben
+                        const progressNames = uniqueLFs.map(lf => {
+                            const lfNum = lf.match(/\d+/)[0];
+                            const progress = this.learningProgress[lf] || 0;
+                            return `${lf.toUpperCase()} (${progress}%)`;
+                        }).join(', ');
+
+                        // Sende Fortschritts-Nachricht
+                        const feedbackMsg = `💪 Du machst Fortschritt! ${progressNames}`;
+                        this.messages.push({
+                            id: this.messageIdCounter++,
+                            role: 'system',
+                            content: feedbackMsg,
+                            timestamp: new Date().toISOString()
+                        });
+                    }
+                },
+
                 saveToLocalStorage() {
                     const allChats = JSON.parse(localStorage.getItem('glitchChats') || '[]');
                     const currentChat = allChats.find(c => c.id === this.currentSessionId);
@@ -1847,6 +1899,10 @@
                             content: data.response,
                             timestamp: new Date().toISOString()
                         });
+
+                        // Auto-track learning progress based on bot response
+                        this.detectAndTrackLearningProgress(data.response);
+
                         this.saveToLocalStorage();
 
                         if (data.words_assigned) {
