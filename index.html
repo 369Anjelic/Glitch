@@ -818,8 +818,8 @@
 
         .learning-fields-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
         }
 
         .learning-field-item {
@@ -864,7 +864,19 @@
             text-align: right;
         }
 
+        @media (max-width: 1200px) {
+            .learning-fields-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
         @media (max-width: 768px) {
+            .learning-fields-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
             .learning-fields-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -1708,73 +1720,19 @@
 
                 </div>
 
-                <!-- Learning Status Panel for LF4-LF12 -->
+                <!-- Learning Status Panel for All 18 LF -->
                 <div class="learning-status-panel">
-                    <div class="learning-status-title">📊 Dein Fortschritt (LF4-LF12)</div>
+                    <div class="learning-status-title">📊 Dein Fortschritt - Alle 18 Lernfelder</div>
                     <div class="learning-fields-grid">
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF4 Frontend</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf4'] || 0}%`"></div>
+                        <template x-for="lf in Array.from({length: 18}, (_, i) => `lf${i+1}`)" :key="lf">
+                            <div class="learning-field-item">
+                                <div class="learning-field-label" x-text="`${lf.toUpperCase()}`"></div>
+                                <div class="learning-field-bar">
+                                    <div class="learning-field-fill" :style="`width: ${learningProgress[lf] || 0}%`"></div>
+                                </div>
+                                <div class="learning-field-percent" x-text="`${learningProgress[lf] || 0}%`"></div>
                             </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf4'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF5 Backend</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf5'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf5'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF6 Sicherheit</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf6'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf6'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF7 Mobile iOS</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf7'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf7'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF8 Android</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf8'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf8'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF9 Cross-Platform</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf9'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf9'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF10 Patterns</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf10'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf10'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF11 Testing</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf11'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf11'] || 0}%`"></div>
-                        </div>
-                        <div class="learning-field-item">
-                            <div class="learning-field-label">LF12 Team</div>
-                            <div class="learning-field-bar">
-                                <div class="learning-field-fill" :style="`width: ${learningProgress['lf12'] || 0}%`"></div>
-                            </div>
-                            <div class="learning-field-percent" x-text="`${learningProgress['lf12'] || 0}%`"></div>
-                        </div>
+                        </template>
                     </div>
                 </div>
             </div>
