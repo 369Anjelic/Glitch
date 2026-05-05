@@ -390,8 +390,11 @@
             background: var(--light-gray);
             border-radius: 12px;
             height: fit-content;
+            max-height: 80vh;
+            overflow-y: auto;
             position: sticky;
             top: 100px;
+            width: 280px;
         }
 
         .sidebar-title {
@@ -463,6 +466,9 @@
             background: transparent;
             border: 1px solid transparent;
             transition: all 0.2s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .topic-item:hover {
